@@ -44,32 +44,6 @@
     text-align: center;
   }
 
-  <!-- Mutual Aid Button -->
-<div style="margin: 10px 0;">
-  <button onclick="showNext()">Next Mutual Aid</button>
-  <div id="nextAidDisplay" style="margin-top: 8px; font-weight: bold; color: #0AC18E;"></div>
-</div>
-
-<script>
-const p = [
-  {m:11,y:2024}, {m:2,y:2025}, {m:5,y:2025}, {m:8,y:2025},
-  {m:11,y:2025}, {m:2,y:2026}, {m:5,y:2026}, {m:8,y:2026}
-];
-
-function showNext() {
-  const today=new Date();
-  for(let i=0;i<p.length;i++){
-    const d=new Date(p[i].y,p[i].m-1,1);
-    if(d>=today){display(d);return;}
-  }
-  display(new Date(p[0].y+1,p[0].m-1,1));
-}
-
-function display(date) {
-  document.getElementById('nextAidDisplay').textContent='Next aid: '+date.toDateString();
-}
-</script>
-
   /* Buttons container styles */
   #buttons-container {
     display: flex;
@@ -220,6 +194,7 @@ function display(date) {
 
 <h1 id="title">NSFW BCH</h1>
 <div id="mutual-aid-info">Community Hub</div>
+
 <div id="buttons-container">
   <button id="watchBtn">Watch Free</button>
   <input type="text" id="searchInput" placeholder="Discover Bitcoin Cash" />
