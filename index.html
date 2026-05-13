@@ -141,6 +141,129 @@
     transition: transform 0.2s, box-shadow 0.2s;
   }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ℕ𝕊𝔽𝕎 𝔹ℂℍ</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Ubuntu', Arial, sans-serif;
+    background: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 0;
+    color: #222;
+  }
+
+  /* Title styles */
+  #title {
+    font-size: 2.8em;
+    color: #0AC18E;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+
+  /* Buttons container styles */
+  #buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0AC18E, #2ecc71);
+    color: #fff;
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.2s;
+    width: 200px;
+  }
+  button:hover {
+    background: linear-gradient(135deg, #089d75, #27ae60);
+    transform: scale(1.05);
+  }
+
+  /* Search bar styles */
+  #searchInput {
+    padding: 10px 15px;
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 14px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    width: 220px;
+    outline: none;
+    transition: box-shadow 0.3s;
+  }
+  #searchInput:focus {
+    box-shadow: 0 0 8px rgba(10, 193, 142, 0.6);
+  }
+
+  /* Main app section styles */
+  #app-section {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px;
+  }
+
+  /* Container for label and grid side by side */
+  .labels-grid-container {
+    display: flex;
+    width: 100%;
+    gap: 30px;
+  }
+
+  /* Vertical label styles */
+  .grid-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #0AC18E;
+    align-self: flex-start;
+    padding-top: 40px;
+    letter-spacing: 2px;
+  }
+
+  /* Grid wrapper styles */
+  .figures-grid-wrapper {
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  /* Main figures grid styles */
+  .figures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 16px;
+  }
+
+  /* Figure styles */
+  figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 8px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
   figure img {
     width: 100px;
     height: 100px;
@@ -164,39 +287,50 @@
     text-align: center;
   }
 
-.parent {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
-
-/* Refresh button fixed at bottom left with no extra left margin */
-#refreshBtn {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #0AC18E, #2ecc71);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: #fff;
-  z-index: 1000;
-  transition: background 0.3s, transform 0.2s;
-}
-#refreshBtn:hover {
-  background: linear-gradient(135deg, #089d75, #27ae60);
-  transform: scale(1.05);
-}
+  /* Fixed refresh button styles */
+  #refreshBtn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0AC18E, #2ecc71);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    z-index: 1000;
+    transition: background 0.3s, transform 0.2s;
+  }
+  #refreshBtn:hover {
+    background: linear-gradient(135deg, #089d75, #27ae60);
+    transform: scale(1.05);
+  }
 </style>
 </head>
 <body>
+
+<!-- Place the MutualAidMonday link at the top -->
+<div
+  id="aidMondayLink"
+  style="
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 1.2em;
+    color: #0AC18E;
+    cursor: pointer;
+  "
+  onclick="alert('Mutual Aid Monday is a community-driven initiative where participants contribute BCH to support mutual aid projects, charities, or community efforts. Contributions are pooled and distributed periodically to foster collective support.\n\nWho participates?\nAnyone in the community can contribute BCH voluntarily to participate and help strengthen community resilience.\n\nWhere are funds stored?\nIn a transparent, on-chain wallet, allowing anyone to verify transactions via Bitcoin Cash block explorers.');"
+>
+  #MutualAidMonday
+</div>
 
 <h1 id="title">ℕ𝕊𝔽𝕎 𝔹ℂℍ</h1>
 
