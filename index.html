@@ -24,10 +24,10 @@
 
   /* Loader styles - removed spinner and loading text */
   #loader {
-    display: none; /* Hidden since loading spinner is removed */
+    display: none;
   }
 
-  /* Content hidden initially, shown after images load or immediately if no images */
+  /* Main content styles */
   #main-content {
     display: block;
     width: 100%;
@@ -35,15 +35,26 @@
     padding: 20px;
   }
 
-  /* Title styles */
+  /* AGORA Title styles - slightly reduced from previous 4em */
   #title {
-    font-size: 3em;
+    font-size: 3.2em; /* Slightly smaller for better balance */
     color: #0AC18E;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     letter-spacing: 2px;
     text-align: center;
   }
+
+  /* Subtitle styles - keep smaller, more refined spacing */
+  .subtitle {
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 1.4em; /* Slightly smaller for clarity */
+    color: #0AC18E;
+    margin-top: 8px; /* Reduced spacing from title */
+    margin-bottom: 30px; /* Keep enough space below for separation */
+    text-align: center;
+  }
+
   /* Mutual Aid Monday link styles */
   #aidMondayLink {
     width: 100%;
@@ -158,12 +169,10 @@
 </head>
 <body>
 
-<!-- Loader spinner - removed spinner -->
-<div id="loader">
-  <!-- No spinner or loading text -->
-</div>
+<!-- Loader spinner - no spinner -->
+<div id="loader"></div>
 
-<!-- Main content is visible immediately -->
+<!-- Main content -->
 <div id="main-content">
   <!-- Your content with all figures -->
   <div id="aidMondayLink" onclick="alert('Discover Mutual Aid Monday support for projects at Silver, Gold and Platinum tiers. Gifts are discretionary and not guaranteed.');">
@@ -172,9 +181,8 @@
   
   <h1 id="title">AGORA</h1>
   <!-- Subtitle: Bitcoin Cash Index -->
-<h2 style="text-align:center; font-family:'Ubuntu', Arial, sans-serif; color:#0AC18E; margin-top:20px;">
-  Bitcoin Cash Index
-</h2>
+  <h2 class="subtitle">Bitcoin Cash Index</h2>
+  
   <div id="buttons-container">
     <button id="watchBtn">Mature Content 18+</button>
     <input type="text" id="searchInput" placeholder="Discover Bitcoin Cash" />
