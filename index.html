@@ -22,22 +22,27 @@
     align-items: center;
   }
 
-  /* Loader styles - removed spinner and loading text */
+  /* Loader styles - shown initially */
   #loader {
-    display: none;
+    display: flex; /* Show loader initially */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.5em;
+    font-weight: 500;
   }
 
-  /* Main content styles */
+  /* Main content styles - hidden until images load */
   #main-content {
-    display: block;
+    display: none;
     width: 100%;
     max-width: 1400px;
     padding: 20px;
   }
 
-  /* AGORA Title styles - slightly reduced from previous 4em */
+  /* AGORA Title styles */
   #title {
-    font-size: 3.2em; /* Slightly smaller for better balance */
+    font-size: 3.2em;
     color: #0AC18E;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -45,13 +50,13 @@
     text-align: center;
   }
 
-  /* Subtitle styles - keep smaller, more refined spacing */
+  /* Subtitle styles */
   .subtitle {
     font-family: 'Ubuntu', Arial, sans-serif;
-    font-size: 1.4em; /* Slightly smaller for clarity */
+    font-size: 1.4em;
     color: #0AC18E;
-    margin-top: 8px; /* Reduced spacing from title */
-    margin-bottom: 30px; /* Keep enough space below for separation */
+    margin-top: 8px;
+    margin-bottom: 30px;
     text-align: center;
   }
 
@@ -169,8 +174,8 @@
 </head>
 <body>
 
-<!-- Loader spinner - no spinner -->
-<div id="loader"></div>
+<!-- Loader spinner -->
+<div id="loader">Loading content...</div>
 
 <!-- Main content -->
 <div id="main-content">
@@ -180,7 +185,6 @@
   </div>
   
   <h1 id="title">AGORA</h1>
-  <!-- Subtitle: Bitcoin Cash Index -->
   <h2 class="subtitle">Bitcoin Cash Index</h2>
   
   <div id="buttons-container">
@@ -906,7 +910,7 @@
             </a>
             <figcaption>Flowee Pay | Wallet</figcaption>
           </figure>
-          
+
           <!-- Exchanges -->
           <figure>
             <a href="https://axeswap.net/" target="_blank" rel="noopener noreferrer">
@@ -926,7 +930,7 @@
             </a>
             <figcaption>Cauldron DEX</figcaption>
           </figure>
-          
+
           <!-- Creators -->
           <figure>
             <a href="https://www.youtube.com/channel/UC56YjlXR2Nirl3jNyYAayQQ" target="_blank" rel="noopener noreferrer">
@@ -934,7 +938,7 @@
             </a>
             <figcaption>LaEconomiaP2P | Creator</figcaption>
           </figure>
-          
+
           <!-- dApps -->
           <figure>
             <a href="https://app.bch.guru/#/" target="_blank" rel="noopener noreferrer">
@@ -973,13 +977,13 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    // Show loader until all images load
     const images = document.querySelectorAll('#figuresGrid img');
     let loadedCount = 0;
     const totalImages = images.length;
 
+    // Show loader until all images load
     if (totalImages === 0) {
-      // No images to load, show content immediately
+      // No images: show content immediately
       document.getElementById('loader').style.display = 'none';
       document.getElementById('main-content').style.display = 'block';
       shuffleFigures();
@@ -997,6 +1001,7 @@
     function incrementCounter() {
       loadedCount++;
       if (loadedCount >= totalImages) {
+        // All images loaded
         document.getElementById('loader').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
         shuffleFigures();
