@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
 <style>
-  /* Reset and base styles */
+  /* Reset & base styles */
   * {
     box-sizing: border-box;
     margin: 0;
@@ -42,10 +42,10 @@
     padding: 20px;
   }
 
-  /* Content header styles */
+  /* Title styles (smaller font) */
   #title {
     font-family: 'Pacifico', cursive;
-    font-size: 2em; /* Smaller title */
+    font-size: 2em;
     background: linear-gradient(135deg, #89f7fe, #66a6ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -65,127 +65,122 @@
     }
   }
 
- /* Main Content */
-#main-content {
-  position: relative;
-}
+  /* Controls: Button + Search */
+  #controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
 
-/* Controls styling */
-#controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
-  width: 100%;
-}
+  /* Mature Content Button - smaller */
+  #watchBtn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: #fff;
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+  #watchBtn:hover {
+    box-shadow: 0 0 20px #ff7e5f;
+    transform: scale(1.05);
+  }
 
-/* Buttons and inputs */
-#watchBtn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
-  color: #fff;
-  font-family: 'Ubuntu', Arial, sans-serif;
-  font-size: 14px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-}
-#watchBtn:hover {
-  box-shadow: 0 0 20px #ff7e5f;
-  transform: scale(1.05);
-}
-#searchInput {
-  padding: 8px 12px;
-  font-family: 'Ubuntu', Arial, sans-serif;
-  font-size: 14px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  min-width: 220px;
-  outline: none;
-  transition: box-shadow 0.3s, border-color 0.3s;
-}
-#searchInput:focus {
-  box-shadow: 0 0 8px rgba(10, 193, 142, 0.6);
-  border-color: #0AC18E;
-}
+  /* Search input */
+  #searchInput {
+    padding: 8px 12px;
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 14px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    min-width: 220px;
+    outline: none;
+    transition: box-shadow 0.3s, border-color 0.3s;
+  }
+  #searchInput:focus {
+    box-shadow: 0 0 8px rgba(10, 193, 142, 0.6);
+    border-color: #0AC18E;
+  }
 
-/* Figures grid */
+  /* Figures grid layout */
 #figuresGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  margin-top: 40px;
-  width: 100%;
-}
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 40px;
+    width: 100%;
+  }
 
-/* Figures styling */
 figure {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  padding: 10px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
 figure:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 20px rgba(0,0,0,0.2);
-}
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+  }
 figure img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  border-radius: 8px;
-  background: #ecf0f1;
-  padding: 4px;
-  transition: transform 0.3s;
-}
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #ecf0f1;
+    padding: 4px;
+    transition: transform 0.3s;
+  }
 figure:hover img {
-  transform: scale(1.05);
-}
+    transform: scale(1.05);
+  }
 figcaption {
-  margin-top: 8px;
-  font-size: 0.85em;
-  color: #606060;
-  text-align: center;
-}
+    margin-top: 8px;
+    font-size: 0.85em;
+    color: #606060;
+    text-align: center;
+  }
 
-/* Fixed refresh button bottom right */
 #refreshBtn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #0AC18E, #2ecc71);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: #fff;
-  z-index: 1000;
-  transition: all 0.3s ease;
-  animation: pulse 2s infinite;
-}
+    position: fixed;
+    bottom: 20px;
+    left: 20px; /* kept at bottom-left as original */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0AC18E, #2ecc71);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+  }
 #refreshBtn:hover {
-  box-shadow: 0 0 20px #0AC18E;
-  transform: scale(1.05);
-}
+    box-shadow: 0 0 20px #0AC18E;
+    transform: scale(1.05);
+  }
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 10px #0AC18E; }
-  50% { box-shadow: 0 0 20px #0AC18E; }
-}
+    0%, 100% { box-shadow: 0 0 10px #0AC18E; }
+    50% { box-shadow: 0 0 20px #0AC18E; }
+  }
 
-/* Style for Mutual Aid link box fixed bottom right */
+/* Additional fixed position for Mutual Aid link box (bottom right) */
 #aidContainer {
   position: fixed;
   bottom: 10px;
@@ -236,10 +231,9 @@ figcaption {
 
 <!-- Main Content -->
 <div id="main-content">
-  <!-- Your figures grid -->
+  <!-- Figures grid -->
   <div id="figuresGrid">
-    <!-- BEGIN: All your figures as raw figure elements -->
-    <!-- Example figure (repeat for all your figures) -->
+    <!-- All your figures, no exemptions, same as your input -->
     <figure>
       <a href="https://gaze.cash/play?vid=AAAB9g" target="_blank" rel="noopener noreferrer">
         <img src="https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/robocop.jpg" alt="Robocop 1987" />
@@ -542,7 +536,7 @@ figcaption {
     </figure>
     <figure>
       <a href="https://haveibeenpwned.com/Donate" target="_blank" rel="noopener noreferrer">
-        <img src="https://raw.githubusercontent.com/jessreplica/bchprojects/heads/heads/main/bch%20agora/pwned.png" alt="haveibeenpwned" />
+        <img src="https://raw.githubusercontent.com/jessreplica/bchprojects/heads/main/bch%20agora/pwned.png" alt="haveibeenpwned" />
       </a>
       <figcaption>haveibeenpwned</figcaption>
     </figure>
@@ -657,7 +651,7 @@ figcaption {
   <div id="aidBlurb">Join us this Monday for mutual aid efforts and community support.</div>
 </div>
 
-<!-- Refresh button fixed bottom right -->
+<!-- Refresh button fixed bottom left -->
 <button id="refreshBtn" title="Refresh" onclick="shuffleFigures();">&#x21bb;</button>
 
 <script>
