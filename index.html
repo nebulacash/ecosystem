@@ -8,6 +8,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
 <style>
+  :root {
+    /* Light mode colors */
+    --bg-color: #f0f4f8;
+    --text-color: #333;
+    --shadow-color: rgba(0,0,0,0.1);
+    --hover-shadow-color: rgba(0,0,0,0.2);
+    --filter-tag-bg: #fff;
+    --filter-tag-hover: #e0f7fa;
+    --figure-bg: #fff;
+    --figure-shadow: rgba(0,0,0,0.1);
+    --caption-color: #606060;
+    --subcaption-color: #c0c0c0;
+    --title-gradient: linear-gradient(135deg, #89f7fe, #66a6ff);
+    --button-gradient: linear-gradient(135deg, #89f7fe, #66a6ff);
+  }
+
+  body.dark-mode {
+    /* Dark mode overrides */
+    --bg-color: #121212;
+    --text-color: #eee;
+    --shadow-color: rgba(0,0,0,0.4);
+    --hover-shadow-color: rgba(0,0,0,0.6);
+    --filter-tag-bg: #333;
+    --filter-tag-hover: #555;
+    --figure-bg: #222;
+    --figure-shadow: rgba(0,0,0,0.5);
+    --caption-color: #aaa;
+    --subcaption-color: #888;
+    --title-gradient: linear-gradient(135deg, #444, #222);
+    --button-gradient: linear-gradient(135deg, #444, #222);
+  }
+
   /* Reset and base styles */
   * {
     box-sizing: border-box;
@@ -16,11 +48,30 @@
   }
   body {
     font-family: 'Ubuntu', Arial, sans-serif;
-    background: #f0f4f8;
-    color: #333;
+    background: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  /* Dark mode toggle button */
+  #darkModeToggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: var(--filter-tag-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 0.9em;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: background 0.3s, color 0.3s;
+  }
+  #darkModeToggle:hover {
+    background: var(--filter-tag-hover);
   }
 
   /* Loader styles */
@@ -46,23 +97,24 @@
   #title {
     font-family: 'Pacifico', cursive;
     font-size: 3em;
-    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    background: var(--title-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 20px 0 10px;
     letter-spacing: 2px;
     text-align: center;
-    text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-shadow: 0 4px 6px var(--shadow-color);
     animation: glow 2s infinite alternate ease-in-out;
     width: 100%;
+    cursor: pointer;
   }
 
   @keyframes glow {
     0% {
-      text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-shadow: 0 4px 6px var(--shadow-color);
     }
     100% {
-      text-shadow: 0 8px 12px rgba(0,0,0,0.2);
+      text-shadow: 0 8px 12px var(--hover-shadow-color);
     }
   }
 
@@ -100,13 +152,13 @@
     font-size: 0.75em;
     border: none;
     border-radius: 6px;
-    background: #fff;
+    background: var(--filter-tag-bg);
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: background 0.2s, transform 0.2s;
   }
   .filter-tag:hover {
-    background: #e0f7fa;
+    background: var(--filter-tag-hover);
     transform: scale(1.05);
   }
 
@@ -115,7 +167,7 @@
     padding: 12px 24px;
     border: none;
     border-radius: 12px;
-    background: linear-gradient(135deg, #89f7fe, #66a6ff); /* same as title */
+    background: var(--button-gradient);
     color: #fff;
     font-family: 'Ubuntu', Arial, sans-serif;
     font-size: 14px;
@@ -156,15 +208,15 @@ figure {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #fff;
+    background: var(--figure-bg);
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px var(--figure-shadow);
     padding: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
   }
 figure:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 12px 20px var(--hover-shadow-color);
   }
 figure img {
     width: 100px;
@@ -181,12 +233,15 @@ figure:hover img {
 figcaption {
     margin-top: 8px;
     font-size: 0.85em;
-    color: #606060;
+    color: var(--caption-color);
     text-align: center;
   }
 </style>
 </head>
 <body>
+
+<!-- Dark Mode Toggle Button -->
+<button id="darkModeToggle">Dark Mode</button>
 
 <!-- Loader -->
 <div id="loader">Loading content...</div>
@@ -213,6 +268,14 @@ figcaption {
 <div id="figuresGrid"></div>
 
 <script>
+  // Toggle dark mode
+  document.getElementById('darkModeToggle').onclick = () => {
+    document.body.classList.toggle('dark-mode');
+    // Optional: change button text
+    const btn = document.getElementById('darkModeToggle');
+    btn.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+  };
+
   // Full list of figures
   const figuresData = [
     { href: "https://tapswap.cash/trade/97e035042c113731fe3e884e499b2d6ca94e4b4ff2f7f2ed44029a544ce0b9e2", src: "https://raw.githubusercontent.com/megaracash/bchprojects/refs/heads/main/bch%20agora/bchmultipass.webp", alt: "BCH Multipass", caption: "BCH Multipass", subcaption: "Mutual Aid" },
