@@ -74,9 +74,9 @@
     background: var(--filter-tag-hover);
   }
 
-  /* Loader styles */
+  /* Loader styles - hidden now */
   #loader {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -87,7 +87,7 @@
 
   /* Main container */
   #main-content {
-    display: none;
+    display: block;
     width: 100%;
     max-width: 1600px;
     padding: 20px;
@@ -220,9 +220,7 @@ figure img {
     border-radius: 8px;
     padding: 4px;
     transition: transform 0.3s;
-    /* Remove background to prevent white behind images in dark mode */
-    /* background: #ecf0f1; */ 
-}
+  }
 
 /* Make caption text white when in dark mode for all figures */
 body.dark-mode figcaption {
@@ -235,26 +233,32 @@ body.dark-mode figcaption {
 <!-- Dark Mode Toggle Button -->
 <button id="darkModeToggle">Dark Mode</button>
 
-<!-- Title -->
-<h1 id="title">Megaracash</h1>
+<!-- Loader - hidden now -->
+<div id="loader">Loading content...</div>
 
-<!-- Controls: Search + Filter tags (All, Mutual Aid, Friday Film) -->
-<div id="controls">
-  <!-- Top row: search button + input -->
-  <div id="top-controls" style="display:flex; justify-content:center; gap:15px; width:100%; flex-wrap:wrap;">
-    <button id="watchBtn">Movie Night</button>
-    <input type="text" id="searchInput" placeholder="Discover Bitcoin Cash" />
+<!-- Main Content -->
+<div id="main-content">
+  <!-- Title -->
+  <h1 id="title">Megaracash</h1>
+
+  <!-- Controls: Search + Filter tags (All, Mutual Aid, Friday Film) -->
+  <div id="controls">
+    <!-- Top row: search button + input -->
+    <div id="top-controls" style="display:flex; justify-content:center; gap:15px; width:100%; flex-wrap:wrap;">
+      <button id="watchBtn">Movie Night</button>
+      <input type="text" id="searchInput" placeholder="Discover Bitcoin Cash" />
+    </div>
+    <!-- Filter tags including "All" -->
+    <div id="filterTags">
+      <button class="filter-tag" data-filter="All">All</button>
+      <button class="filter-tag" data-filter="Mutual Aid">Mutual Aid</button>
+      <button class="filter-tag" data-filter="Friday Film">Friday Film</button>
+    </div>
   </div>
-  <!-- Filter tags including "All" -->
-  <div id="filterTags">
-    <button class="filter-tag" data-filter="All">All</button>
-    <button class="filter-tag" data-filter="Mutual Aid">Mutual Aid</button>
-    <button class="filter-tag" data-filter="Friday Film">Friday Film</button>
-  </div>
+
+  <!-- Figures grid -->
+  <div id="figuresGrid"></div>
 </div>
-
-<!-- Figures grid -->
-<div id="figuresGrid"></div>
 
 <script>
   // Toggle dark mode
@@ -265,7 +269,7 @@ body.dark-mode figcaption {
     btn.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
   };
 
-    // Full list of figures
+  // Full list of figures
   const figuresData = [
     { href: "https://www.cauldron.quest/", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/cauldron.png", alt: "Cauldron DEX", caption: "Cauldron DEX" },
     { href: "https://gaze.cash/play?vid=AAAB_Q", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/hercules.jpeg", alt: "Hercules", caption: "Hercules", subcaption: "Friday Film" },
@@ -415,32 +419,6 @@ body.dark-mode figcaption {
     document.getElementById("watchBtn").onclick = () => {
       window.open('https://gaze.cash/play?vid=AAAB_Q', '_blank');
     };
-
-    // Image load handling
-    const imgs = document.querySelectorAll('#figuresGrid img');
-    let loadedCount = 0;
-    const totalImgs = imgs.length;
-    if (totalImgs === 0) {
-      document.getElementById('loader').style.display='none';
-      document.getElementById('main-content').style.display='block';
-    } else {
-      imgs.forEach(img => {
-        if (img.complete) {
-          incrementLoad();
-        } else {
-          img.onload = incrementLoad;
-          img.onerror = incrementLoad;
-        }
-      });
-    }
-
-    function incrementLoad() {
-      loadedCount++;
-      if (loadedCount >= totalImgs) {
-        document.getElementById('loader').style.display='none';
-        document.getElementById('main-content').style.display='block';
-      }
-    }
   });
 </script>
 
