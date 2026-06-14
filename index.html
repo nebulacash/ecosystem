@@ -92,34 +92,26 @@
     gap: 10px;
   }
 
-  /* Dark Mode toggle button */
-  #darkModeToggle {
+  /* Buttons styling */
+  #darkModeToggle, #giftButton {
     padding: 8px 12px;
     border: none;
     border-radius: 6px;
-    background: var(--filter-tag-bg);
-    color: var(--text-color);
-    cursor: pointer;
     font-family: 'Ubuntu', Arial, sans-serif;
     font-size: 0.9em;
-    box-shadow: 0 2px 4px var(--shadow-color);
+  }
+  #darkModeToggle {
+    background: var(--filter-tag-bg);
+    color: var(--text-color);
   }
   #darkModeToggle:hover {
     background: var(--filter-tag-hover);
     transform: scale(1.05);
   }
 
-  /* Gift button styling */
   #giftButton {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
     background: linear-gradient(135deg, #89f7fe, #66a6ff);
     color: #fff;
-    cursor: pointer;
-    font-family: 'Ubuntu', Arial, sans-serif;
-    font-size: 0.9em;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
   #giftButton:hover {
     box-shadow: 0 0 20px #66a6ff;
@@ -307,7 +299,6 @@ figcaption {
 </head>
 <body>
 
-<!-- Sticky header container -->
 <header id="header">
   <h1 id="title" onclick="location.reload();">𝕸𝖊𝖌𝖆𝖗𝖆𝖈𝖆𝖘𝖍</h1>
   <div id="top-buttons">
@@ -324,7 +315,6 @@ figcaption {
   </div>
 </header>
 
-<!-- Main content -->
 <div id="main">
   <div id="figuresGrid"></div>
 </div>
@@ -333,7 +323,6 @@ figcaption {
 <div id="giftModal" style="display:none;">
   <div>
     <h3>Choose how to visit CryptoRefills</h3>
-    <!-- Button group for spacing and centering -->
     <div class="button-group">
       <button id="openExternal">Open in New Tab</button>
       <button id="openIframe">View in Iframe</button>
@@ -342,13 +331,12 @@ figcaption {
   </div>
 </div>
 
-<!-- Fullscreen iframe overlay -->
+<!-- Iframe overlay -->
 <div id="iframeOverlay">
   <button id="closeIframe">&times;</button>
   <iframe src="" id="refillsIframe"></iframe>
 </div>
 
-<!-- Figures data array -->
 <script>
 const figures = [
   { href: "https://fiatleak.com/", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/fiatleak.svg", alt: "fiatleak", caption: "fiatleak" },
@@ -427,19 +415,27 @@ const figures = [
   { href: "https://opreturn-scanner.netlify.app/", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/opreturnscanner.svg", alt: "OP_RETURN Scanner", caption: "OP_RETURN Scanner" }
 ];
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 function populateFigures() {
   const container = document.getElementById('figuresGrid');
-  container.innerHTML = '';
+  let html = '';
   figures.forEach(item => {
-    const fig = document.createElement('figure');
-    fig.innerHTML = `
-      <a href="${item.href}" target="_blank" rel="noopener noreferrer">
-        <img src="${item.src}" alt="${item.alt}">
-      </a>
-      <figcaption>${item.caption}${item.subcaption ? `<p style="color: #c0c0c0;">${item.subcaption}</p>` : ''}</figcaption>
+    html += `
+      <figure>
+        <a href="${item.href}" target="_blank" rel="noopener noreferrer">
+          <img src="${item.src}" alt="${item.alt}">
+        </a>
+        <figcaption>${item.caption}${item.subcaption ? `<p style="color: #c0c0c0;">${item.subcaption}</p>` : ''}</figcaption>
+      </figure>
     `;
-    container.appendChild(fig);
   });
+  container.innerHTML = html;
 }
 
 // Search filtering
@@ -504,8 +500,9 @@ document.getElementById('darkModeToggle').onclick = () => {
   modal.classList.toggle('dark-mode');
 };
 
-// Initialize figures on page load
+// Shuffle figures array on load and then populate
 document.addEventListener('DOMContentLoaded', () => {
+  shuffleArray(figures);
   populateFigures();
 });
 </script>
