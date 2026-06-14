@@ -40,7 +40,7 @@
     --button-gradient: linear-gradient(135deg, #444, #222);
   }
 
-  /* Reset and base styles */
+  /* Reset styles */
   * {
     box-sizing: border-box;
     margin: 0;
@@ -52,61 +52,30 @@
     color: var(--text-color);
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
 
-  /* Dark Mode Toggle Button */
-  #darkModeToggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    background: var(--filter-tag-bg);
-    color: var(--text-color);
-    cursor: pointer;
-    font-size: 0.9em;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    transition: background 0.3s, color 0.3s;
-  }
-  #darkModeToggle:hover {
-    background: var(--filter-tag-hover);
-  }
-
-  /* Loader styles - hidden now */
-  #loader {
-    display: none;
+  /* Header with title and top right buttons */
+  #header {
+    position: relative;
+    width: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    font-size: 1.8em;
-    font-weight: 600;
-    color: #555;
-  }
-
-  /* Main container */
-  #main-content {
-    display: block;
-    width: 100%;
-    max-width: 1600px;
     padding: 20px;
   }
 
-  /* Content header styles */
   #title {
     font-family: 'Pacifico', cursive;
     font-size: 3em;
     background: var(--title-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin: 20px 0 10px;
+    margin: 0;
     letter-spacing: 2px;
-    text-align: center;
     text-shadow: 0 4px 6px var(--shadow-color);
     animation: glow 2s infinite alternate ease-in-out;
     width: 100%;
-    cursor: pointer;
+    text-align: center;
   }
 
   @keyframes glow {
@@ -118,14 +87,68 @@
     }
   }
 
+  /* Buttons container at top right */
+  #top-right-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Light/Dark Mode Toggle Button */
+  #darkModeToggle {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: var(--filter-tag-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 0.9em;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: background 0.3s, color 0.3s;
+  }
+  #darkModeToggle:hover {
+    background: var(--filter-tag-hover);
+    transform: scale(1.05);
+  }
+
+  /* Gift Button styles */
+  #giftButton {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 0.9em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+  #giftButton:hover {
+    box-shadow: 0 0 20px #66a6ff;
+    transform: scale(1.05);
+  }
+
+  /* Main content styles */
+  #main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
   /* Controls styles */
   #controls {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
     width: 100%;
+    max-width: 1600px;
+    margin-bottom: 20px;
   }
 
   #top-controls {
@@ -159,23 +182,6 @@
     transform: scale(1.05);
   }
 
-  #watchBtn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 12px;
-    background: var(--button-gradient);
-    color: #fff;
-    font-family: 'Ubuntu', Arial, sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-  }
-  #watchBtn:hover {
-    box-shadow: 0 0 20px #66a6ff;
-    transform: scale(1.05);
-  }
-
   #searchInput {
     padding: 10px 15px;
     font-family: 'Ubuntu', Arial, sans-serif;
@@ -191,7 +197,7 @@
     border-color: #0AC18E;
   }
 
-  /* Grid for figures */
+  /* Figures grid styles */
 #figuresGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -222,52 +228,147 @@ figure img {
     transition: transform 0.3s;
   }
 
-/* Make caption text white when in dark mode for all figures */
 body.dark-mode figcaption {
   color: #fff;
+}
+
+/* Gift modal styles */
+#giftModal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+#giftModalContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+#giftModalContent h3 {
+  margin-bottom: 20px;
+}
+#giftModalContent button {
+  margin: 10px 0;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Ubuntu', Arial, sans-serif;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+#giftModalContent button:hover {
+  opacity: 0.9;
+}
+#closeGiftModal {
+  background: #f44336;
+  color: #fff;
+}
+
+/* Iframe overlay styles */
+#iframeOverlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+}
+#iframeContainer {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  height: 80%;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+#iframeContainer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+#closeIframe {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 </style>
 </head>
 <body>
 
-<!-- Dark Mode Toggle Button -->
-<button id="darkModeToggle">Dark Mode</button>
-
-<!-- Loader - hidden now -->
-<div id="loader">Loading content...</div>
-
-<!-- Main Content -->
-<div id="main-content">
-  <!-- Title -->
+<!-- Header with title and top right buttons -->
+<div id="header" style="position:relative; width:100%; display:flex; justify-content:center; align-items:center; padding:20px;">
   <h1 id="title">𝕸𝖊𝖌𝖆𝖗𝖆𝖈𝖆𝖘𝖍</h1>
-
-  <!-- Controls: Search + Filter tags (All, Mutual Aid, Friday Film) -->
-  <div id="controls">
-    <!-- Top row: search button + input -->
-    <div id="top-controls" style="display:flex; justify-content:center; gap:15px; width:100%; flex-wrap:wrap;">
-      <button id="watchBtn">Movie Night</button>
-      <input type="text" id="searchInput" placeholder="Discover Bitcoin Cash" />
-    </div>
-    <!-- Filter tags including "All" -->
-    <div id="filterTags">
-      <button class="filter-tag" data-filter="All">All</button>
-      <button class="filter-tag" data-filter="Mutual Aid">Mutual Aid</button>
-      <button class="filter-tag" data-filter="Friday Film">Friday Film</button>
-    </div>
+  <!-- Buttons container at top right -->
+  <div id="top-right-buttons" style="position:absolute; top:20px; right:20px; display:flex; gap:10px;">
+    <button id="darkModeToggle">Dark Mode</button>
+    <button id="giftButton">Gift</button>
   </div>
-
-  <!-- Figures grid -->
-  <div id="figuresGrid"></div>
 </div>
 
+<!-- Main content -->
+<div id="main-content">
+  <!-- Controls -->
+  <div id="controls" style="display:flex; flex-direction:column; align-items:center; gap:10px; width:100%; max-width:1600px; margin-bottom:20px;">
+    <!-- Only search input -->
+    <div id="top-controls" style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; width:100%;">
+      <input type="text" id="searchInput" placeholder="Discover Bitcoin Cash" style="padding:10px 15px; font-family:'Ubuntu',Arial,sans-serif; font-size:14px; border-radius:12px; border:1px solid #ccc; min-width:220px; outline:none; transition:box-shadow 0.3s, border-color 0.3s;" />
+    </div>
+    <!-- Filter tags -->
+    <div id="filterTags" style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:8px;">
+      <button class="filter-tag" data-filter="All" style="padding:4px 8px; font-size:0.75em; border:none; border-radius:6px; background:var(--filter-tag-bg); box-shadow:0 1px 3px rgba(0,0,0,0.1); cursor:pointer; transition:background 0.2s, transform 0.2s;">All</button>
+      <button class="filter-tag" data-filter="Mutual Aid" style="padding:4px 8px; font-size:0.75em; border:none; border-radius:6px; background:var(--filter-tag-bg); box-shadow:0 1px 3px rgba(0,0,0,0.1); cursor:pointer; transition:background 0.2s, transform 0.2s;">Mutual Aid</button>
+      <button class="filter-tag" data-filter="Friday Film" style="padding:4px 8px; font-size:0.75em; border:none; border-radius:6px; background:var(--filter-tag-bg); box-shadow:0 1px 3px rgba(0,0,0,0.1); cursor:pointer; transition:background 0.2s, transform 0.2s;">Friday Film</button>
+    </div>
+  </div>
+  <!-- Figures grid -->
+  <div id="figuresGrid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; width:100%;"></div>
+</div>
+
+<!-- Gift Modal -->
+<div id="giftModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+  <div style="background:#fff; padding:20px; border-radius:10px; max-width:400px; width:90%; text-align:center;">
+    <h3 style="margin-bottom:20px;">Select how to visit CryptoRefills</h3>
+    <button id="openExternal" style="margin:10px; padding:10px 20px; border:none; background:#4CAF50; color:#fff; border-radius:6px; cursor:pointer;">Open in New Tab</button><br/>
+    <button id="openIframe" style="margin:10px; padding:10px 20px; border:none; background:#2196F3; color:#fff; border-radius:6px; cursor:pointer;">View in Iframe</button><br/>
+    <button id="closeGiftModal" style="margin:10px; padding:8px 16px; border:none; background:#f44336; color:#fff; border-radius:6px; cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<!-- Iframe overlay for CryptoRefills -->
+<div id="iframeOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:9998;">
+  <div style="position:relative; width:90%; max-width:1000px; height:80%; background:#fff; border-radius:8px; overflow:hidden;">
+    <button id="closeIframe" style="position:absolute; top:10px; right:15px; background:#f44336; color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:20px; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.3);">&times;</button>
+    <iframe src="" id="refillsIframe"></iframe>
+  </div>
+</div>
+
+<!-- Scripts -->
 <script>
   // Toggle dark mode
-  document.getElementById('darkModeToggle').onclick = () => {
+  document.getElementById('darkModeToggle')?.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
-    // Optional: change button text
-    const btn = document.getElementById('darkModeToggle');
-    btn.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
-  };
+    document.getElementById('darkModeToggle').textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+  });
 
   // Full list of figures
   const figuresData = [
@@ -397,33 +498,78 @@ body.dark-mode figcaption {
     });
   }
 
+  // Search filter
+  document.getElementById("searchInput").addEventListener("input", () => {
+    const q = document.getElementById("searchInput").value.toLowerCase();
+    document.querySelectorAll("#figuresGrid figure").forEach(f => {
+      const txt = f.querySelector("figcaption").textContent.toLowerCase();
+      const matchesFilter = currentFilter === "All" || txt.toLowerCase().includes(currentFilter.toLowerCase());
+      const matchesSearch = txt.includes(q);
+      f.style.display = (matchesFilter && matchesSearch) ? "" : "none";
+    });
+  });
+
+  // Filter buttons
+  document.querySelectorAll('.filter-tag').forEach(btn => {
+    btn.onclick = () => {
+      filterFigures(btn.dataset.filter);
+    };
+  });
+
+  // "Movie Night" button removed as per request
+
+  // Gift Button Logic
+  const giftBtn = document.getElementById("giftButton");
+  const giftModal = document.getElementById("giftModal");
+  const iframeOverlay = document.getElementById("iframeOverlay");
+  const refillsIframe = document.getElementById("refillsIframe");
+  const closeIframeBtn = document.getElementById("closeIframe");
+  const closeGiftBtn = document.getElementById("closeGiftModal");
+  const openExternalBtn = document.getElementById("openExternal");
+  const openIframeBtn = document.getElementById("openIframe");
+
+  giftBtn.onclick = () => {
+    giftModal.style.display = "flex";
+  };
+
+  document.getElementById("closeGiftModal").onclick = () => {
+    giftModal.style.display = "none";
+  };
+
+  // External link option
+  openExternalBtn.onclick = () => {
+    window.open('https://www.cryptorefills.com/', '_blank');
+    giftModal.style.display = "none";
+  };
+
+  // Iframe view option
+  openIframeBtn.onclick = () => {
+    document.getElementById("iframeOverlay").style.display = "flex";
+    refillsIframe.src = 'https://www.cryptorefills.com/';
+    giftModal.style.display = "none";
+  };
+
+  // Close iframe overlay
+  document.getElementById("closeIframe").onclick = () => {
+    document.getElementById("iframeOverlay").style.display = "none";
+    refillsIframe.src = "";
+  };
+
+  // Clicking outside iframe closes overlay
+  document.getElementById("iframeOverlay").onclick = (e) => {
+    if (e.target === document.getElementById("iframeOverlay")) {
+      document.getElementById("iframeOverlay").style.display = "none";
+      refillsIframe.src = "";
+    }
+  };
+
+  // Initialize figures
   document.addEventListener("DOMContentLoaded", () => {
     shuffleFigures();
-
-    // Search filter
-    document.getElementById("searchInput").addEventListener("input", () => {
-      const q = document.getElementById("searchInput").value.toLowerCase();
-      document.querySelectorAll("#figuresGrid figure").forEach(f => {
-        const txt = f.querySelector("figcaption").textContent.toLowerCase();
-        const matchesFilter = currentFilter === "All" || txt.toLowerCase().includes(currentFilter.toLowerCase());
-        const matchesSearch = txt.includes(q);
-        f.style.display = (matchesFilter && matchesSearch) ? "" : "none";
-      });
-    });
-
-    // Filter buttons
-    document.querySelectorAll('.filter-tag').forEach(btn => {
-      btn.onclick = () => {
-        filterFigures(btn.dataset.filter);
-      };
-    });
-
-    // "Movie Night" button
-    document.getElementById("watchBtn").onclick = () => {
-      window.open('https://gaze.cash/play?vid=AAAB_g', '_blank');
-    };
   });
 </script>
 
+</body>
+</html>
 </body>
 </html>
