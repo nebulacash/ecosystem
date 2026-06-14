@@ -103,7 +103,6 @@
     font-family: 'Ubuntu', Arial, sans-serif;
     font-size: 0.9em;
     box-shadow: 0 2px 4px var(--shadow-color);
-    transition: background 0.3s, transform 0.2s;
   }
   #darkModeToggle:hover {
     background: var(--filter-tag-hover);
@@ -121,7 +120,6 @@
     font-family: 'Ubuntu', Arial, sans-serif;
     font-size: 0.9em;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
   }
   #giftButton:hover {
     box-shadow: 0 0 20px #66a6ff;
@@ -225,7 +223,6 @@ figcaption {
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  transition: background 0.3s;
 }
 
 /* Dark mode overlay */
@@ -242,7 +239,6 @@ figcaption {
   width: 90%;
   text-align: center;
   box-shadow: 0 4px 8px var(--shadow-color);
-  transition: background 0.3s, color 0.3s;
 }
 
 /* Dark mode modal content */
@@ -268,6 +264,44 @@ figcaption {
 #giftModal.dark-mode > div button {
   background: #444;
   color: #eee;
+}
+
+/* Fullscreen iframe overlay styles */
+#iframeOverlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999; /* Very high to be above all others */
+}
+#iframeOverlay.show {
+  display: flex;
+}
+
+#refillsIframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#closeIframe {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 100000; /* Above overlay */
 }
 </style>
 </head>
@@ -299,18 +333,19 @@ figcaption {
 <div id="giftModal" style="display:none;">
   <div>
     <h3>Choose how to visit CryptoRefills</h3>
-    <button id="openExternal" style="margin:10px; padding:10px 20px; background:#4CAF50; color:#fff;">Open in New Tab</button><br/><br/>
-    <button id="openIframe" style="margin:10px; padding:10px 20px; background:#2196F3; color:#fff;">View in Iframe</button><br/><br/>
-    <button id="closeGift" style="margin:10px; padding:8px 16px; background:#f44336; color:#fff;">Cancel</button>
+    <!-- Button group for spacing and centering -->
+    <div class="button-group">
+      <button id="openExternal">Open in New Tab</button>
+      <button id="openIframe">View in Iframe</button>
+    </div>
+    <button id="closeGift">Cancel</button>
   </div>
 </div>
 
 <!-- Fullscreen iframe overlay -->
-<div id="iframeOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:9998;">
-  <div style="position:relative; width:100%; height:100%; background:#fff; border-radius:0;">
-    <button id="closeIframe" style="position:absolute; top:10px; right:15px; width:30px; height:30px; background:#f44336; color:#fff; border:none; border-radius:50%; font-size:20px; cursor:pointer;">&times;</button>
-    <iframe src="" id="refillsIframe" style="width:100%; height:100%; border:none;"></iframe>
-  </div>
+<div id="iframeOverlay">
+  <button id="closeIframe">&times;</button>
+  <iframe src="" id="refillsIframe"></iframe>
 </div>
 
 <!-- Figures data array -->
@@ -375,7 +410,7 @@ const figures = [
   { href: "https://fork.lol/", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/forklol.png", alt: "Fork.lol", caption: "Fork.lol" },
   { href: "https://bitinfocharts.com/bitcoin%20cash/", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/opreturnscanner.svg", alt: "BitInfoCharts", caption: "BitInfoCharts" },
   { href: "https://txcity.io/v/bch-btc", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/txcity.svg", alt: "TxCity.io", caption: "TxCity.io" },
-  { href: "https://buyhodlsell.com/tx-watch", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/bhs.svg", alt: "BuyHodlSell", caption: "Buy Hodl Sell" },
+  { href: "https://buyhodlsell.com/tx-watch", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/heads/main/bch%20agora/bhs.svg", alt: "BuyHodlSell", caption: "Buy Hodl Sell" },
   { href: "https://github.com/cculianu/asicseer-pool", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/ASICseer.png", alt: "ASICseer", caption: "ASICseer Pool" },
   { href: "https://afifthofgaming.com/", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/afog.webp", alt: "A Fifth of Gaming", caption: "A Fifth of Gaming" },
   { href: "https://bitbucket.org/o-studio/spedn/src/develop/", src: "https://raw.githubusercontent.com/jessreplica/bchprojects/refs/heads/main/bch%20agora/speedn.svg", alt: "Speedn", caption: "SPEEDN" },
@@ -451,24 +486,24 @@ const giftModal = document.getElementById('giftModal');
 const iframeOverlay = document.getElementById('iframeOverlay');
 const refillsIframe = document.getElementById('refillsIframe');
 
-giftBtn.onclick = () => { giftModal.style.display = 'flex'; };
+giftBtn.onclick = () => { giftModal.style.display = 'block'; };
 document.getElementById('closeGift').onclick = () => { giftModal.style.display = 'none'; };
 document.getElementById('openExternal').onclick = () => {
   window.open('https://www.cryptorefills.com/', '_blank');
   giftModal.style.display = 'none';
 };
 document.getElementById('openIframe').onclick = () => {
-  iframeOverlay.style.display = 'flex';
+  iframeOverlay.classList.add('show');
   refillsIframe.src = 'https://www.cryptorefills.com/';
   giftModal.style.display = 'none';
 };
 document.getElementById('closeIframe').onclick = () => {
-  iframeOverlay.style.display = 'none';
+  iframeOverlay.classList.remove('show');
   refillsIframe.src = '';
 };
 document.getElementById('iframeOverlay').onclick = (e) => {
   if (e.target === document.getElementById('iframeOverlay')) {
-    iframeOverlay.style.display = 'none';
+    iframeOverlay.classList.remove('show');
     refillsIframe.src = '';
   }
 };
