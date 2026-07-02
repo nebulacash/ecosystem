@@ -166,13 +166,13 @@
     background: var(--filter-tag-hover);
     transform: scale(1.05);
   }
-  /* Make category tags more readable in dark mode */
+  /* More readable in dark mode */
   body.dark-mode .tag {
-    background: #555; /* darker background for dark mode */
-    color: #eee;        /* light text for dark mode */
+    background: #555;
+    color: #eee;
   }
   body.dark-mode .tag:hover {
-    background: #777; /* slightly lighter on hover in dark mode */
+    background: #777;
   }
 
   #figuresGrid {
@@ -380,7 +380,7 @@
 <script>
 // Full figures array
 const figures = [
-    // Mutual Aid / Commerce
+  // Mutual Aid / Commerce
   { href: "https://unspent.cash/s?q=eJwrWymSLzSVO30Nv5%2Fkk3XaCw9OqzV5%2F2J5xxoAhj0L9g%3D%3D", src: "https://i.postimg.cc/8Ft68f9T/koala.png", alt: "Currumbin Wildlife Hospital", caption: "Currumbin Wildlife Hospital", subcaption: "Mutual Aid Contract" },
   { href: "https://unspent.cash/s?q=eJwrWyly6%2FGBQ1J7kj4zcBz4NT1vk0%2FSztpbHWsAtGYOCQ%3D%3D", src: "https://i.postimg.cc/jnzqbG26/elephants.png", alt: "Global Sanctuary for Elephants", caption: "Global Sanctuary for Elephants", subcaption: "Mutual Aid Contract" },
   { href: "https://unspent.cash/s?q=eJwrWylS6OEXxvnDZ%2BWUlatMS%2F%2FlXzeU2jazYw0AkugMKg%3D%3D", src: "https://i.postimg.cc/xNKj2W8y/treehousehumane.png", alt: "Tree House Humane Society", caption: "Tree House Humane Society", subcaption: "Mutual Aid Contract" },
@@ -470,8 +470,9 @@ function populateFigures() {
 
 // On DOM load
 document.addEventListener('DOMContentLoaded', () => {
-  // Set dark theme as default
+  // Set initial theme to dark
   document.body.classList.add('dark-mode');
+  // Set the toggle button text to "Light Mode" initially
   document.getElementById('darkModeToggle').textContent = 'Light Mode';
 
   // Sync modal theme
@@ -531,7 +532,7 @@ document.getElementById('darkModeToggle').onclick = () => {
     document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
 };
 
-// Modal controls
+// Gift modal control buttons
 const giftBtn = document.getElementById('giftButton');
 giftBtn.onclick = () => { document.getElementById('giftModal').classList.add('show'); };
 document.getElementById('closeGift').onclick = () => { document.getElementById('giftModal').classList.remove('show'); };
@@ -555,18 +556,7 @@ document.getElementById('iframeOverlay').onclick = (e) => {
   }
 };
 
-// Theme toggle for entire site and modal
-document.getElementById('darkModeToggle').onclick = () => {
-  document.body.classList.toggle('dark-mode');
-  document.getElementById('giftModal').classList.toggle('dark-mode');
-  document.querySelector('#giftModal > div').classList.toggle('dark-mode');
-
-  // Update button text
-  document.getElementById('darkModeToggle').textContent = 
-    document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
-};
-
-// Particles (keep your existing code, omitted here for brevity)
+// Particles (your existing code; omitted here for brevity)
 const canvas = document.getElementById('particle-background');
 const ctx = canvas.getContext('2d');
 function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -646,7 +636,5 @@ backToTopBtn.onclick = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 </script>
-</body>
-</html>
 </body>
 </html>
