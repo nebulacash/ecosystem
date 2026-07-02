@@ -10,13 +10,13 @@
 <style>
   :root {
     /* Light theme colors */
-    --bg-color: #F3DCA3; /* Sandy yellow background */
+    --bg-color: #F3DCA3;
     --text-color: #333;
     --shadow-color: rgba(0,0,0,0.1);
     --hover-shadow-color: rgba(0,0,0,0.2);
-    --filter-tag-bg: #fff; /* Tag backgrounds */
+    --filter-tag-bg: #fff;
     --filter-tag-hover: #e0f7fa;
-    --figure-bg: #F3DCA3; /* Figures background */
+    --figure-bg: #F3DCA3;
     --figure-shadow: rgba(0,0,0,0.1);
     --caption-color: #606060;
     --title-gradient: linear-gradient(135deg, #89f7fe, #66a6ff);
@@ -41,13 +41,11 @@
     padding: 0;
   }
 
-  /* Canvas for particles - full background */
   #particle-background {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     z-index: -1;
-    display: block;
   }
 
   body {
@@ -58,7 +56,6 @@
     flex-direction: column;
   }
 
-  /* Sticky header styling */
   #header {
     position: sticky;
     top: 0;
@@ -87,16 +84,11 @@
     text-align: center;
   }
 
-  @keyframes glow {
-    /* Animation removed for simplicity */
-  }
-
   #top-buttons {
     display: flex;
     gap: 10px;
   }
 
-  /* Buttons styling */
   #darkModeToggle, #giftButton, #categoriesButton {
     padding: 8px 12px;
     border: none;
@@ -131,7 +123,6 @@
     transform: scale(1.05);
   }
 
-  /* Search container */
   #search-container {
     display: flex;
     align-items: center;
@@ -154,7 +145,6 @@
     border-color: #0AC18E;
   }
 
-  /* Tags styles */
   #tags {
     display: flex;
     flex-wrap: wrap;
@@ -176,8 +166,15 @@
     background: var(--filter-tag-hover);
     transform: scale(1.05);
   }
+  /* Make category tags more readable in dark mode */
+  body.dark-mode .tag {
+    background: #555; /* darker background for dark mode */
+    color: #eee;        /* light text for dark mode */
+  }
+  body.dark-mode .tag:hover {
+    background: #777; /* slightly lighter on hover in dark mode */
+  }
 
-  /* Figures grid styles */
   #figuresGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -214,9 +211,8 @@
     color: var(--caption-color);
   }
 
-  /* Modal styles */
   #giftModal {
-    display: none; /* control with class "show" */
+    display: none;
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
@@ -228,7 +224,6 @@
   #giftModal.show {
     display: flex;
   }
-
   #giftModal > div {
     background: #F3DCA3;
     padding: 20px;
@@ -240,6 +235,7 @@
   #giftModal > div h3 {
     text-align: center;
   }
+  /* Dark theme for modal background and inner div */
   #giftModal.dark-mode {
     background: rgba(18, 18, 18, 0.8);
   }
@@ -266,7 +262,6 @@
     color: #eee;
   }
 
-  /* Iframe overlay styles */
   #iframeOverlay {
     display: none;
     position: fixed;
@@ -298,7 +293,6 @@
     z-index: 100000;
   }
 
-  /* Back to Top Button Styles */
   #backToTop {
     position: fixed;
     bottom: 30px;
@@ -319,14 +313,13 @@
     justify-content: center;
     transition: background-color 0.3s, transform 0.3s;
   }
-
   #backToTop:hover {
     background-color: #55bbee;
     transform: scale(1.1);
   }
 </style>
 </head>
-<body>
+<body class="dark-mode">
 <!-- Particle background -->
 <canvas id="particle-background"></canvas>
 
@@ -385,7 +378,7 @@
 <button id="backToTop" title="Back to Top">↑</button>
 
 <script>
-// Figures array
+// Full figures array
 const figures = [
     // Mutual Aid / Commerce
   { href: "https://unspent.cash/s?q=eJwrWymSLzSVO30Nv5%2Fkk3XaCw9OqzV5%2F2J5xxoAhj0L9g%3D%3D", src: "https://i.postimg.cc/8Ft68f9T/koala.png", alt: "Currumbin Wildlife Hospital", caption: "Currumbin Wildlife Hospital", subcaption: "Mutual Aid Contract" },
@@ -449,13 +442,15 @@ const figures = [
   { href: "https://realbitcoin.cash/", src: "https://i.postimg.cc/TLQMbVFT/bitcoincash.png", alt: "Real Bitcoin Cash", caption: "Real Bitcoin Cash", subcaption: "Informational" },
 ];
 
+// Shuffle function
 function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+  for (let i=array.length-1; i>0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
+// Populate figures
 function populateFigures() {
   const container = document.getElementById('figuresGrid');
   let html = '';
@@ -472,6 +467,20 @@ function populateFigures() {
   container.innerHTML = html;
 }
 
+// On DOM load
+document.addEventListener('DOMContentLoaded', () => {
+  // Set dark theme as default
+  document.body.classList.add('dark-mode');
+  document.getElementById('darkModeToggle').textContent = 'Light Mode';
+
+  // Sync modal theme
+  document.getElementById('giftModal').classList.add('dark-mode');
+  document.querySelector('#giftModal > div').classList.add('dark-mode');
+
+  shuffleArray(figures);
+  populateFigures();
+});
+
 // Search filter
 document.getElementById('search-input').addEventListener('input', () => {
   const query = document.getElementById('search-input').value.toLowerCase();
@@ -481,7 +490,7 @@ document.getElementById('search-input').addEventListener('input', () => {
   });
 });
 
-// Tag filter
+// Filter tags
 document.querySelectorAll('.tag').forEach(tag => {
   tag.onclick = () => {
     const filterVal = tag.dataset.filter.toLowerCase();
@@ -496,10 +505,9 @@ document.querySelectorAll('.tag').forEach(tag => {
   };
 });
 
-// Toggle categories container
+// Toggle category container
 const categoriesBtn = document.getElementById('categoriesButton');
 const categoriesContainer = document.getElementById('categoriesContainer');
-
 categoriesBtn.onclick = () => {
   if (categoriesContainer.style.display === 'none') {
     categoriesContainer.style.display = 'flex';
@@ -508,69 +516,72 @@ categoriesBtn.onclick = () => {
   }
 };
 
+// Modal theme toggle (sync with page)
+const giftModal = document.getElementById('giftModal');
+const modalInnerDiv = document.querySelector('#giftModal > div');
+
+document.getElementById('darkModeToggle').onclick = () => {
+  document.body.classList.toggle('dark-mode');
+  giftModal.classList.toggle('dark-mode');
+  modalInnerDiv.classList.toggle('dark-mode');
+
+  // Update toggle button text
+  document.getElementById('darkModeToggle').textContent = 
+    document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+};
+
 // Modal controls
 const giftBtn = document.getElementById('giftButton');
-const giftModal = document.getElementById('giftModal');
-const iframeOverlay = document.getElementById('iframeOverlay');
-const refillsIframe = document.getElementById('refillsIframe');
-
-giftBtn.onclick = () => { giftModal.classList.add('show'); };
-document.getElementById('closeGift').onclick = () => { giftModal.classList.remove('show'); };
+giftBtn.onclick = () => { document.getElementById('giftModal').classList.add('show'); };
+document.getElementById('closeGift').onclick = () => { document.getElementById('giftModal').classList.remove('show'); };
 document.getElementById('openExternal').onclick = () => {
   window.open('https://www.cryptorefills.com/?ref=L4JVzCcsxp', '_blank');
-  giftModal.classList.remove('show');
+  document.getElementById('giftModal').classList.remove('show');
 };
 document.getElementById('openIframe').onclick = () => {
-  iframeOverlay.classList.add('show');
-  refillsIframe.src = 'https://www.cryptorefills.com/?ref=L4JVzCcsxp';
-  giftModal.classList.remove('show');
+  document.getElementById('iframeOverlay').classList.add('show');
+  document.getElementById('refillsIframe').src = 'https://www.cryptorefills.com/?ref=L4JVzCcsxp';
+  document.getElementById('giftModal').classList.remove('show');
 };
 document.getElementById('closeIframe').onclick = () => {
-  iframeOverlay.classList.remove('show');
-  refillsIframe.src = '';
+  document.getElementById('iframeOverlay').classList.remove('show');
+  document.getElementById('refillsIframe').src = '';
 };
 document.getElementById('iframeOverlay').onclick = (e) => {
   if (e.target === document.getElementById('iframeOverlay')) {
-    iframeOverlay.classList.remove('show');
-    refillsIframe.src = '';
+    document.getElementById('iframeOverlay').classList.remove('show');
+    document.getElementById('refillsIframe').src = '';
   }
 };
 
-// Dark mode toggle
+// Theme toggle for entire site and modal
 document.getElementById('darkModeToggle').onclick = () => {
   document.body.classList.toggle('dark-mode');
-  document.getElementById('darkModeToggle').textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+  document.getElementById('giftModal').classList.toggle('dark-mode');
+  document.querySelector('#giftModal > div').classList.toggle('dark-mode');
 
-  // Toggle dark mode class on modal
-  const modal = document.getElementById('giftModal');
-  modal.classList.toggle('dark-mode');
+  // Update button text
+  document.getElementById('darkModeToggle').textContent = 
+    document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
 };
 
-// Particle background setup with interaction
+// Particles (keep your existing code, omitted here for brevity)
 const canvas = document.getElementById('particle-background');
 const ctx = canvas.getContext('2d');
-
-let particlesArray;
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 class Particle {
   constructor() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
+    this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
     this.size = Math.random() * 2 + 1;
     this.speedX = (Math.random() - 0.5) * 0.5;
     this.speedY = (Math.random() - 0.5) * 0.5;
     this.color = 'rgba(0, 150, 255, 0.5)';
   }
   update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
+    this.x += this.speedX; this.y += this.speedY;
     if (this.x < 0) this.x = canvas.width;
     if (this.x > canvas.width) this.x = 0;
     if (this.y < 0) this.y = canvas.height;
@@ -578,58 +589,44 @@ class Particle {
   }
   draw() {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
     ctx.fillStyle = this.color;
     ctx.fill();
   }
 }
-
+let particlesArray = [];
 function init() {
-  particlesArray = [];
-  for (let i = 0; i < 80; i++) {
-    particlesArray.push(new Particle());
-  }
+  for (let i=0; i<80; i++) { particlesArray.push(new Particle()); }
 }
 init();
 
-let mouse = { x: null, y: null, radius: 100 };
-window.addEventListener('mousemove', (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
-window.addEventListener('mouseout', () => {
-  mouse.x = null;
-  mouse.y = null;
-});
-
+const mouse = { x: null, y: null, radius: 100 };
+window.addEventListener('mousemove', e => { mouse.x=e.clientX; mouse.y=e.clientY; });
+window.addEventListener('mouseout', () => { mouse.x=null; mouse.y=null; });
 function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let particle of particlesArray) {
-    // Interaction with mouse
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  for (let p of particlesArray) {
     if (mouse.x !== null && mouse.y !== null) {
-      const dx = particle.x - mouse.x;
-      const dy = particle.y - mouse.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < mouse.radius) {
-        const force = (mouse.radius - dist) / mouse.radius;
-        const repelX = (dx / dist) * force * 2;
-        const repelY = (dy / dist) * force * 2;
-        particle.x += repelX;
-        particle.y += repelY;
+      const dx = p.x - mouse.x; const dy = p.y - mouse.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if (dist<mouse.radius) {
+        const force = (mouse.radius - dist)/mouse.radius;
+        p.x += (dx/dist)*force*2;
+        p.y += (dy/dist)*force*2;
       }
     }
-    particle.update();
-    particle.draw();
+    p.update(); p.draw();
   }
-  for (let a = 0; a < particlesArray.length; a++) {
-    for (let b = a + 1; b < particlesArray.length; b++) {
+  // draw lines
+  for (let a=0; a<particlesArray.length; a++) {
+    for (let b=a+1; b<particlesArray.length; b++) {
       const dx = particlesArray[a].x - particlesArray[b].x;
       const dy = particlesArray[a].y - particlesArray[b].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 100) {
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if (dist<100) {
         ctx.beginPath();
-        ctx.strokeStyle = 'rgba(0, 150, 255, 0.1)';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle='rgba(0,150,255,0.1)';
+        ctx.lineWidth=1;
         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
         ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
         ctx.stroke();
@@ -640,17 +637,9 @@ function animate() {
 }
 animate();
 
-// Populate figures on load
-document.addEventListener('DOMContentLoaded', () => {
-  shuffleArray(figures);
-  populateFigures();
-});
-
-// Back to Top Button
 const backToTopBtn = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
-  if (window.pageYOffset > 300) backToTopBtn.style.display = 'flex';
-  else backToTopBtn.style.display = 'none';
+  backToTopBtn.style.display = (window.pageYOffset > 300) ? 'flex' : 'none';
 });
 backToTopBtn.onclick = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
