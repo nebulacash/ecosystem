@@ -50,6 +50,12 @@
     flex-direction: column;
   }
 
+  /* Blur class for background content when iframe is active */
+  #backgroundContent.blur {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+  }
+
   #header {
     position: sticky;
     top: 0;
@@ -214,7 +220,7 @@
     justify-content: center;
     align-items: center;
     z-index: 99999;
-    padding: 0; /* Removed padding for maximum size */
+    padding: 0;
   }
   #iframeOverlay.show {
     display: flex;
@@ -225,11 +231,10 @@
     max-width: 1000px;
     max-height: 700px;
   }
-  /* Responsive adjustment for very small screens */
-  @media (max-width: 600px) {
+  @media(max-width: 600px) {
     #refillsIframe {
       width: 100vw;
-      height: 90vh; /* Increased height for mobile */
+      height: 90vh;
     }
   }
 
@@ -248,10 +253,8 @@
 
   #backToTop {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
+    bottom: 30px; right: 30px;
+    width: 50px; height: 50px;
     font-size: 1.5em;
     background-color: #66ccff;
     color: #fff;
@@ -260,7 +263,6 @@
     cursor: pointer;
     box-shadow: 0 4px 8px var(--shadow-color);
     display: none;
-    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -270,37 +272,46 @@
     background-color: #55bbee;
     transform: scale(1.1);
   }
+
+  /* Add this for blurring the background behind iframe only */
+  #backgroundContent.blur {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+  }
 </style>
 </head>
 <body class="dark-mode">
-<!-- Particle background -->
-<canvas id="particle-background"></canvas>
+<!-- Wrap all main content here for blurring -->
+<div id="backgroundContent">
+  <!-- Particle background -->
+  <canvas id="particle-background"></canvas>
 
-<header id="header">
-  <h1 id="title" onclick="location.reload();">𝕮𝖊𝖑𝖘𝖎𝖆𝖓𝖘 𝕮𝖑𝖚𝖇</h1>
-  <div id="top-buttons">
-    <button id="darkModeToggle">Dark Mode</button>
-    <button id="giftButton">Gift Cards</button>
-    <button id="categoriesButton">All Categories</button>
-  </div>
-  <div id="search-container" style="width:100%; max-width:600px; margin-top:10px;">
-    <input type="search" id="search-input" placeholder="Discover Bitcoin Cash" />
-  </div>
-  <div id="categoriesContainer" style="display: none; margin-top: 10px; justify-content: center; flex-wrap: wrap;">
-    <button class="tag" data-filter="All">All</button>
-    <button class="tag" data-filter="Mutual Aid">Mutual Aid</button>
-    <button class="tag" data-filter="Self Custody">Self Custody</button>
-    <button class="tag" data-filter="Privacy">Privacy</button>
-    <button class="tag" data-filter="Informational">Informational</button>
-    <button class="tag" data-filter="Explorers">Explorers</button>
-    <button class="tag" data-filter="Community">Community</button>
-    <button class="tag" data-filter="DeFi">DeFi</button>
-    <button class="tag" data-filter="Commerce">Commerce</button>
-  </div>
-</header>
+  <header id="header">
+    <h1 id="title" onclick="location.reload();">𝕮𝖊𝖑𝖘𝖎𝖆𝖓𝖘 𝕮𝖑𝖚𝖇</h1>
+    <div id="top-buttons">
+      <button id="darkModeToggle">Dark Mode</button>
+      <button id="giftButton">Gift Cards</button>
+      <button id="categoriesButton">All Categories</button>
+    </div>
+    <div id="search-container" style="width:100%; max-width:600px; margin-top:10px;">
+      <input type="search" id="search-input" placeholder="Discover Bitcoin Cash" />
+    </div>
+    <div id="categoriesContainer" style="display: none; margin-top: 10px; justify-content: center; flex-wrap: wrap;">
+      <button class="tag" data-filter="All">All</button>
+      <button class="tag" data-filter="Mutual Aid">Mutual Aid</button>
+      <button class="tag" data-filter="Self Custody">Self Custody</button>
+      <button class="tag" data-filter="Privacy">Privacy</button>
+      <button class="tag" data-filter="Informational">Informational</button>
+      <button class="tag" data-filter="Explorers">Explorers</button>
+      <button class="tag" data-filter="Community">Community</button>
+      <button class="tag" data-filter="DeFi">DeFi</button>
+      <button class="tag" data-filter="Commerce">Commerce</button>
+    </div>
+  </header>
 
-<div id="main">
-  <div id="figuresGrid"></div>
+  <div id="main">
+    <div id="figuresGrid"></div>
+  </div>
 </div>
 
 <!-- Iframe overlay -->
@@ -319,9 +330,11 @@ const figures = [
   { href: "https://unspent.cash/s?q=eJwrWymSLzSVO30Nv5%2Fkk3XaCw9OqzV5%2F2J5xxoAhj0L9g%3D%3D", src: "https://i.postimg.cc/8Ft68f9T/koala.png", alt: "Currumbin Wildlife Hospital", caption: "Currumbin Wildlife Hospital", subcaption: "Mutual Aid Contract" },
   { href: "https://unspent.cash/s?q=eJwrWyly6%2FGBQ1J7kj4zcBz4NT1vk0%2FSztpbHWsAtGYOCQ%3D%3D", src: "https://i.postimg.cc/jnzqbG26/elephants.png", alt: "Global Sanctuary for Elephants", caption: "Global Sanctuary for Elephants", subcaption: "Mutual Aid Contract" },
   { href: "https://unspent.cash/s?q=eJwrWylS6OEXxvnDZ%2BWUlatMS%2F%2FlXzeU2jazYw0AkugMKg%3D%3D", src: "https://i.postimg.cc/xNKj2W8y/treehousehumane.png", alt: "Tree House Humane Society", caption: "Tree House Humane Society", subcaption: "Mutual Aid Contract" },
+
   // Commerce
   { href: "https://www.redbubble.com/i/sticker/BitcoinCash-Accepted-Here-Stickers-by-dwnlives/145620413/7sgk", src: "https://i.postimg.cc/hhq5r7qN/bchsticker.png", alt: "BitcoinCash Stickers", caption: "BitcoinCash Stickers", subcaption: "Commerce" },
   { href: "https://www.redbubble.com/i/mug/Party-Guru-by-dwnlives/169504252/7yqg", src: "https://i.postimg.cc/bdHFFNzM/gurumugparty.png", alt: "BCH Guru Coffee Mug", caption: "BCH Guru Coffee Mug", subcaption: "Commerce" },
+
   // Community
   { href: "https://www.coingecko.com/en/coins/mother-iggy", src: "https://i.postimg.cc/HrwnmCGT/MOTHER.png", alt: "MOTHER", caption: "MOTHER", subcaption: "Community Stats" },
   { href: "https://unspent.cash/s?q=eJwrWykykbedNf759fc8pXPbP%2B24mb%2FzAFNMxxoAn5gNDA%3D%3D", src: "https://i.postimg.cc/Z9xTZ34q/gururewards.png", alt: "BCH Guru Rewards", caption: "BCH Guru Rewards", subcaption: "Mutual Aid Contract" },
@@ -329,6 +342,7 @@ const figures = [
   { href: "https://bchnostr.com/", src: "https://i.postimg.cc/Cx84BqXy/bchnostr.png", alt: "BCHNostr", caption: "BCHNostr", subcaption: "Community Social" },
   { href: "https://gaze.cash/", src: "https://i.postimg.cc/QFzYNMpZ/gaze.png", alt: "Gaze.Cash", caption: "Gaze.Cash", subcaption: "Media Community" },
   { href: "https://celsians.github.io/club/", src: "https://i.postimg.cc/7JrKvWPF/celsians-NEW.png", alt: "Celsians Club", caption: "Celsians Club", subcaption: "Support Community" },  
+
   // DeFi
   { href: "https://unspent.cash/", src: "https://i.postimg.cc/Hj5tX2Xh/unspent.png", alt: "Unspent", caption: "Unspent", subcaption: "DeFi" },
   { href: "https://afifthofgaming.com/", src: "https://i.postimg.cc/r0RNhGbd/afog.png", alt: "AFOG", caption: "AFOG", subcaption: "DeFi" },
@@ -342,6 +356,7 @@ const figures = [
   { href: "https://tokenaut.cash/", src: "https://i.postimg.cc/7PtQvt6k/tokenaut.png", alt: "Tokenaut", caption: "Tokenaut", subcaption: "DeFi" },
   { href: "defillama.com/chain/Bitcoincash", src: "https://i.postimg.cc/QKLkv9Gy/defillama.png", alt: "DeFi Llama", caption: "DeFi Llama", subcaption: "DeFi" },
   { href: "https://paryonusd.com/app", src: "https://i.postimg.cc/xcnP4jdH/paryonusd.png", alt: "ParyonUSD", caption: "ParyonUSD", subcaption: "DeFi Borrowing" },
+
   // Self Custody
   { href: "https://wallet.bitcoin.com/", src: "https://i.postimg.cc/5Y4Jbm2P/bcom-logo.png", alt: "Bitcoin.com", caption: "Bitcoin.com", subcaption: "Self Custody" },
   { href: "https://electroncash.org/", src: "https://i.postimg.cc/8JZS5r7B/electroncash.png", alt: "Electron Cash", caption: "Electron Cash", subcaption: "Self Custody" },
@@ -353,11 +368,13 @@ const figures = [
   { href: "https://www.paytaca.com/", src: "https://i.postimg.cc/2b0D6B1G/paytaca.png", alt: "Paytaca", caption: "Paytaca", subcaption: "Self Custody" },
   { href: "https://selene.cash/", src: "https://i.postimg.cc/qh1TRCN1/selene.png", alt: "Selene", caption: "Selene", subcaption: "Self Custody" },
   { href: "https://stackwallet.com/", src: "https://i.postimg.cc/0MVsQJzW/stack.png", alt: "Stack Wallet", caption: "Stack Wallet", subcaption: "Self Custody" },
+
   // Privacy
   { href: "https://cashfusion.org/", src: "https://i.postimg.cc/sMZyfX9B/Cash-Fusion.png", alt: "CashFusion", caption: "CashFusion", subcaption: "Privacy Protocol" },
   { href: "https://ariavpn.net/", src: "https://i.postimg.cc/PC8hfxzP/aria.png", alt: "Aria", caption: "Aria", subcaption: "VPN Privacy" },
   { href: "https://mullvad.net/en", src: "https://i.postimg.cc/v46M8BLD/mullvad.png", alt: "Mullvad", caption: "Mullvad", subcaption: "VPN Privacy" },
   { href: "https://www.privateinternetaccess.com/", src: "https://i.postimg.cc/18NPRtcn/pia.png", alt: "PIA", caption: "PIA", subcaption: "VPN Privacy" },
+
   // Explorers
   { href: "https://cashtokenmarkets.bch-1.org/", src: "https://i.postimg.cc/k61x6Ft9/cashtokenmarkets.png", alt: "CashToken Markets", caption: "CashToken Markets", subcaption: "Explorers" },
   { href: "https://3xpl.com/bitcoin-cash", src: "https://i.postimg.cc/VrGjrBbc/3xpl.png", alt: "3xpl", caption: "3xpl", subcaption: "Explorers" },
@@ -368,6 +385,7 @@ const figures = [
   { href: "https://explorer.salemkode.com/", src: "https://i.postimg.cc/2VR4qxHq/bitcoincash.png", alt: "Salem Kode", caption: "Salem Kode", subcaption: "Explorers" },
   { href: "https://cashflow.dev/graph", src: "https://i.postimg.cc/2VR4qxHq/bitcoincash.png", alt: "Cashflow", caption: "Cashflow", subcaption: "Explorers" },
   { href: "https://tokenstork.com/", src: "https://i.postimg.cc/rKxMRX8v/Token-Stork.png", alt: "TokenStork", caption: "TokenStork", subcaption: "Explorers" },
+
   // Informational
   { href: "https://minisatoshi.cash/upgrade-history", src: "https://i.postimg.cc/zbpZhC6V/minisatoshi.png", alt: "Minisatoshi", caption: "Minisatoshi", subcaption: "Informational" },
   { href: "https://bchfaq.com/", src: "https://i.postimg.cc/k6w3SQZk/BCHFAQ.png", alt: "Bitcoin Cash FAQ", caption: "Bitcoin Cash FAQ", subcaption: "Informational" },
@@ -448,7 +466,6 @@ const darkModeBtn = document.getElementById('darkModeToggle');
 const body = document.body;
 darkModeBtn.onclick = () => {
   body.classList.toggle('dark-mode');
-  // update button text
   darkModeBtn.textContent = body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
 };
 
@@ -457,17 +474,20 @@ const giftBtn = document.getElementById('giftButton');
 giftBtn.onclick = () => {
   document.getElementById('iframeOverlay').classList.add('show');
   document.getElementById('refillsIframe').src = 'https://www.cryptorefills.com/?ref=L4JVzCcsxp';
+  backgroundContent.classList.add('blur'); // Blur background behind iframe
 };
 
 // Close iframe overlay
 document.getElementById('closeIframe').onclick = () => {
   document.getElementById('iframeOverlay').classList.remove('show');
   document.getElementById('refillsIframe').src = '';
+  backgroundContent.classList.remove('blur'); // Remove blur
 };
 document.getElementById('iframeOverlay').onclick = (e) => {
   if (e.target === document.getElementById('iframeOverlay')) {
     document.getElementById('iframeOverlay').classList.remove('show');
     document.getElementById('refillsIframe').src = '';
+    backgroundContent.classList.remove('blur');
   }
 };
 
@@ -480,7 +500,8 @@ resizeCanvas();
 
 class Particle {
   constructor() {
-    this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
     this.size = Math.random() * 2 + 1;
     this.speedX = (Math.random() - 0.5) * 0.5;
     this.speedY = (Math.random() - 0.5) * 0.5;
@@ -550,7 +571,5 @@ backToTopBtn.onclick = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 </script>
-</body>
-</html>
 </body>
 </html>
