@@ -66,7 +66,8 @@
   /* Hide elements when sidebar is collapsed */
   #sidebar.collapsed h1,
   #sidebar.collapsed #categoriesContainer,
-  #sidebar.collapsed #sidebar-search {
+  #sidebar.collapsed #sidebar-search,
+  #sidebar.collapsed #sidebar-title {
     display: none;
   }
 
@@ -84,7 +85,7 @@
 
   /* Search box styles - with large space above */
   #sidebar input[type="search"] {
-    margin-top: 50px; /* More space above */
+    margin-top: 0px; /* More space above */
     width: 100%;
     padding: 8px 12px;
     border-radius: 12px;
@@ -104,6 +105,19 @@
     margin-top: 20px;
     margin-bottom: 10px;
     margin-left: 0; /* Hug the left edge */
+    color: var(--blue-color);
+  }
+
+  /* New small stacked title styling */
+  #sidebar-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2em; /* smaller size */
+    font-weight: normal;
+    margin-top: 10px; /* space above */
+    margin-bottom: 15px; /* space below */
+    text-align: center;
+    letter-spacing: 1px;
+    line-height: 1.2em;
     color: var(--blue-color);
   }
 
@@ -137,7 +151,7 @@
 
   /* Main content styles */
 #content {
-  margin-left: 120px;
+  margin-left: 140px;
   padding: 20px;
   flex: 1;
   transition: margin-left 0.3s;
@@ -247,7 +261,8 @@ figcaption {
 
 <!-- Sidebar -->
 <div id="sidebar">
-  <!-- Removed the title from here -->
+  <!-- Small stacked title -->
+  <div id="sidebar-title">Celsians<br>Club</div>
   <!-- Search bar below the title, will be hidden when collapsed -->
   <input type="search" id="sidebar-search" placeholder="Search Bitcoin Cash" />
   <div id="categoriesContainer">
@@ -265,9 +280,7 @@ figcaption {
 
 <!-- Main content -->
 <div id="content">
-  <!-- Hugging the left with styled font and blue color -->
-  <h1 id="main-title">𝓒𝓮𝓵𝓼𝓲𝓪𝓷𝓼 𝓒𝓁𝓊𝓫</h1>
-  
+  <!-- Removed the previous main-title from here -->
   <div class="video-container" style="margin-top:10px;">
     <iframe src="https://www.youtube.com/embed/flPCk8Z5XS0" allowfullscreen></iframe>
   </div>
