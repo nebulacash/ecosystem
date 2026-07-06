@@ -55,119 +55,142 @@
     flex-direction: column;
     align-items: center;
     width: 140px;
-    transition: width 0.3s;
-    overflow: hidden;
+    transition: all 0.3s;
     z-index: 1000;
   }
-  #sidebar.collapsed {
-    width: 40px;
-  }
-
-  /* Hide elements when sidebar is collapsed */
-  #sidebar.collapsed h1,
-  #sidebar.collapsed #categoriesContainer,
-  #sidebar.collapsed #sidebar-search,
-  #sidebar.collapsed #sidebar-title {
+  #sidebar.hidden {
     display: none;
   }
 
-  /* Mode toggle icon (top-right) remains the same */
-  #mode-toggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    font-size: 1.2em;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 1100;
-  }
+  /* Always visible toggle button container (no background by default) */
+#toggle-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1101;
+}
 
-  /* Search box styles - with large space above */
-  #sidebar input[type="search"] {
-    margin-top: 0px; /* More space above */
-    width: 100%;
-    padding: 8px 12px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    font-family: 'Ubuntu', Arial, sans-serif;
-    font-size: 14px;
-  }
-  #sidebar-search:focus {
-    box-shadow: 0 0 8px rgba(10, 193, 142, 0.6);
-    border-color: #0AC18E;
-  }
+/* Toggle button styles, always visible */
+#sidebar-toggle {
+  font-size: 1.5em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  transition: background 0.3s, border-radius 0.3s;
+}
 
-  /* Title styling: hug the left, styled with fancy font and blue color */
-  #main-title {
-    font-family: 'Pacifico', cursive;
-    font-size: 2em;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    margin-left: 0; /* Hug the left edge */
-    color: var(--blue-color);
-  }
+/* Style for bubble (solid semi-transparent circle) when sidebar is collapsed */
+#sidebar-toggle.bubble {
+  background: rgba(102, 204, 255, 0.4); /* semi-transparent solid color */
+  border-radius: 50%; /* perfect circle */
+  width: 40px;
+  height: 40px;
+}
 
-  /* New small stacked title styling */
-  #sidebar-title {
-    font-family: 'Pacifico', cursive;
-    font-size: 1.2em; /* smaller size */
-    font-weight: normal;
-    margin-top: 10px; /* space above */
-    margin-bottom: 15px; /* space below */
-    text-align: center;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    color: var(--blue-color);
-  }
+/* Mode toggle icon remains fixed at top-right */
+#mode-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
 
-  /* Category buttons container, hidden when sidebar is collapsed */
-  #categoriesContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    margin-top: 10px;
-  }
-  .category-btn {
-    padding: 8px 12px;
-    font-family: 'Ubuntu', Arial, sans-serif;
-    font-size: 1em;
-    font-weight: bold;
-    border: 1px solid #555;
-    border-radius: 4px;
-    background: var(--category-bg, #fff);
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  #sidebar.collapsed .category-btn {
-    padding: 8px;
-    font-size: 0;
-    border: none;
-  }
-  #sidebar.collapsed .category-btn span {
-    display: none;
-  }
+/* Search box styles */
+#sidebar input[type="search"] {
+  margin-top: 0px; /* More space above */
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-family: 'Ubuntu', Arial, sans-serif;
+  font-size: 14px;
+}
+#sidebar-search:focus {
+  box-shadow: 0 0 8px rgba(10, 193, 142, 0.6);
+  border-color: #0AC18E;
+}
 
-  /* Main content styles */
+/* Title styling */
+#main-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 2em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: 0;
+  color: var(--blue-color);
+}
+
+#sidebar-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.2em;
+  font-weight: normal;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 1.2em;
+  color: var(--blue-color);
+}
+
+/* Container for categories buttons, hidden when sidebar collapsed */
+#categoriesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+}
+.category-btn {
+  padding: 8px 12px;
+  font-family: 'Ubuntu', Arial, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background: var(--category-bg, #fff);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+#sidebar.collapsed .category-btn {
+  padding: 8px;
+  font-size: 0;
+  border: none;
+}
+#sidebar.collapsed .category-btn span {
+  display: none;
+}
+
+/* Main content styles */
 #content {
   margin-left: 140px;
   padding: 20px;
   flex: 1;
-  transition: margin-left 0.3s;
+  transition: all 0.3s;
 }
 body.collapsed-sidebar #content {
   margin-left: 60px;
 }
+body.sidebar-collapsed #content {
+  margin-left: 0;
+}
 
-/* Figures grid with more columns on large screens and smaller screens */
+/* Figures grid styles */
 #figures {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 15px;
 }
-
-/* For screens narrower than 600px, set exactly 3 columns */
 @media (max-width: 600px) {
   #figures {
     grid-template-columns: repeat(3, 1fr);
@@ -190,8 +213,8 @@ figure:hover {
   box-shadow: 0 12px 20px rgba(0,0,0,0.7);
 }
 figure img {
-  width: 80px; /* smaller width for better mobile fit */
-  height: auto; /* maintain aspect ratio */
+  width: 80px;
+  height: auto;
 }
 figcaption {
   margin-top: 8px;
@@ -237,38 +260,21 @@ figcaption {
   width: 100%;
   height: 100%;
 }
-
-/* Sidebar toggle button styles */
-#sidebar-toggle {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1101;
-  background: transparent;
-  border: none;
-  font-size: 1.5em;
-  cursor: pointer;
-  padding: 5px;
-  color: var(--text-color);
-}
-#sidebar-toggle:hover {
-  color: #000;
-}
 </style>
 </head>
 <body>
 
-<!-- Sidebar toggle button -->
-<button id="sidebar-toggle" title="Collapse Sidebar">☰</button>
+<!-- Always visible toggle button container (no background unless collapsed) -->
+<div id="toggle-container">
+  <button id="sidebar-toggle" title="Toggle Sidebar">☰</button>
+</div>
 
-<!-- Mode toggle icon -->
+<!-- Mode toggle -->
 <button id="mode-toggle" title="Toggle Light/Dark">🌙</button>
 
 <!-- Sidebar -->
 <div id="sidebar">
-  <!-- Small stacked title -->
   <div id="sidebar-title">Celsians<br>Club</div>
-  <!-- Search bar below the title, will be hidden when collapsed -->
   <input type="search" id="sidebar-search" placeholder="Search Bitcoin Cash" />
   <div id="categoriesContainer">
     <button class="category-btn" data-filter="All"><span>All</span></button>
@@ -285,19 +291,17 @@ figcaption {
 
 <!-- Main content -->
 <div id="content">
-  <!-- Embedded video -->
   <div class="video-container" style="margin-top:10px;">
     <iframe src="https://www.youtube.com/embed/flPCk8Z5XS0" allowfullscreen></iframe>
   </div>
-  <!-- Figures grid -->
   <div id="figures" style="margin-top:20px;"></div>
 </div>
 
-<!-- Back to Top Button -->
+<!-- Back to Top -->
 <div id="backToTop">↑</div>
 
 <script>
-// Data for figures
+// Data for figures (unchanged)
 const figures = [
   { href: "https://unspent.cash/s?q=eJwrWymSLzSVO30Nv5%2Fkk3XaCw9OqzV5%2F2J5xxoAhj0L9g%3D%3D", src: "https://i.postimg.cc/8Ft68f9T/koala.png", alt: "Currumbin Wildlife Hospital", caption: "Mutual Aid" },
   { href: "https://unspent.cash/s?q=eJwrWyly6%2FGBQ1J7kj4zcBz4NT1vk0%2FSztpbHWsAtGYOCQ%3D%3D", src: "https://i.postimg.cc/jnzqbG26/elephants.png", alt: "Global Sanctuary for Elephants", caption: "Mutual Aid" },
@@ -366,10 +370,10 @@ function filterFigures(type, value) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize in dark mode
+  // Initialize dark mode
   document.body.classList.add('dark-mode');
 
-  // Mode toggle icon
+  // Mode toggle
   const modeToggle = document.getElementById('mode-toggle');
   modeToggle.innerHTML = '🌙';
   modeToggle.onclick = () => {
@@ -386,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
   populateFigures();
   filterFigures('category', 'All');
 
-  // Sidebar search
+  // Search
   document.getElementById('sidebar-search').addEventListener('input', e => {
     filterFigures('search', e.target.value.toLowerCase());
   });
@@ -398,16 +402,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   });
 
-  // Sidebar toggle
-  const sidebarToggleBtn = document.getElementById('sidebar-toggle');
+  // Toggle sidebar
   const sidebar = document.getElementById('sidebar');
+  const toggleButton = document.getElementById('sidebar-toggle');
 
-  sidebarToggleBtn.onclick = () => {
-    sidebar.classList.toggle('collapsed');
-    document.body.classList.toggle('collapsed-sidebar');
+  toggleButton.onclick = () => {
+    sidebar.classList.toggle('hidden');
+    document.body.classList.toggle('sidebar-collapsed');
+    // Toggle the bubble class for perfect circle when collapsed
+    toggleButton.classList.toggle('bubble');
   };
 
-  // Back to top
+  // Show/hide back to top
   window.addEventListener('scroll', () => {
     document.getElementById('backToTop').style.display = (window.scrollY > 300) ? 'flex' : 'none';
   });
