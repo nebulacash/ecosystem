@@ -135,7 +135,12 @@
   #backToTop {
     position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
     background: var(--blue-color); color: #fff; border: none; border-radius: 50%; font-size: 1.5em;
-    display: none; align-items: center; justify-content: center; box-shadow: 0 4px 8px var(--shadow-color); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px var(--shadow-color); cursor: pointer;
+    transition: opacity 0.5s ease;
+  }
+  #backToTop.hidden {
+    opacity: 0;
+    pointer-events: none;
   }
   #backToTop:hover {
     background: #55bbee; transform: scale(1.1);
@@ -174,7 +179,6 @@
 <script>
 const figures = [
     // Your figures data here (same as before)
-
     { href: "https://gaze.cash/channel.html?chan=AAACHg", src: "https://i.postimg.cc/P5fwdy8h/output.jpg", caption: "Koala Gang 18+", subcaption: "DeFi Community", stats: "Mature Healing Content" },
     { href: "https://app.cauldron.quest/swap/5932b2fd4915d6a75d3ec53282cd49118149a2176ee67ed68b1111ff0786f7fc", src: "https://i.postimg.cc/NLTr7LCV/LIFT.png", caption: "LIFT", subcaption: "DeFi Community", stats: "Get 0.1% APY on Cauldron DEX" },
     { href: "https://app.cauldron.quest/swap/d9ab24ed15a7846cc3d9e004aa5cb976860f13dac1ead05784ee4f4622af96ea", src: "https://i.postimg.cc/BLynqgYd/furu.png", caption: "FURU", subcaption: "DeFi Community", stats: "Get 1% APY on Cauldron DEX" },
@@ -243,7 +247,7 @@ const figures = [
     { href: "https://discover.cash/", src: "https://i.postimg.cc/ygn4RmtN/discover.png", caption: "Discover.Cash", subcaption: "Informational" },
     { href: "https://whybitcoincash.com/", src: "https://i.postimg.cc/njTbm4gj/whybitcoincash.png", caption: "Why Bitcoin Cash", subcaption: "Informational" },
     { href: "https://realbitcoin.cash/", src: "https://i.postimg.cc/TLQMbVFT/bitcoincash.png", caption: "Real Bitcoin Cash", subcaption: "Informational" },
-  ];
+];
 
 function shuffleArray(array) {
   for (let i=array.length-1; i>0; i--) {
@@ -261,24 +265,36 @@ function populateFigures() {
     figure.onclick = () => {
       figure.classList.toggle('show-stats');
     };
-    figure.innerHTML = `
+
+    // Build the inner HTML
+    let figureHTML = `
       <a href="${item.href}" target="_blank" rel="noopener noreferrer">
         <img src="${item.src}">
       </a>
       <div class="fig-details">
         <div class="fig-text">
           <figcaption>${item.caption}</figcaption>
-          <div class="stats">${item.stats}</div>
+          <div class="stats">${item.stats || ''}</div>
         </div>
       </div>
-      <div class="info-icon" title="Show/hide stats">i</div>
     `;
-    // Add click handler for the "i"
-    const infoIcon = figure.querySelector('.info-icon');
-    infoIcon.onclick = (e) => {
-      e.stopPropagation();
-      figure.classList.toggle('show-stats');
-    };
+
+    // Only add the "i" icon if stats exist
+    if (item.stats && item.stats.trim() !== '') {
+      figureHTML += `<div class="info-icon" title="Show/hide stats">i</div>`;
+    }
+
+    figure.innerHTML = figureHTML;
+
+    // Add click handler for the "i" icon if it exists
+    if (item.stats && item.stats.trim() !== '') {
+      const infoIcon = figure.querySelector('.info-icon');
+      infoIcon.onclick = (e) => {
+        e.stopPropagation();
+        figure.classList.toggle('show-stats');
+      };
+    }
+
     container.appendChild(figure);
   });
 }
@@ -303,6 +319,8 @@ function filterFigures(type, value) {
     }
   });
 }
+
+let backToTopTimeout = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   // Dark mode toggle
@@ -329,10 +347,24 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.onclick = () => { filterFigures('category', btn.dataset.filter); };
   });
 
-  // Back to top
+  // Back to top fade out after scrolling stops
+  const backBtn = document.getElementById('backToTop');
+  backBtn.style.display = 'flex'; // initially show
+  backBtn.classList.remove('hidden'); // ensure visible initially
+
   window.addEventListener('scroll', () => {
-    document.getElementById('backToTop').style.display = (window.scrollY > 300) ? 'flex' : 'none';
+    backBtn.style.display = 'flex'; // show when scrolling
+    backBtn.classList.remove('hidden'); // remove fade-out if any
+
+    if (backToTopTimeout) {
+      clearTimeout(backToTopTimeout);
+    }
+    backToTopTimeout = setTimeout(() => {
+      backBtn.classList.add('hidden'); // fade out after 2 seconds
+    }, 2000);
   });
+
+  // Back to top click
   document.getElementById('backToTop').onclick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
